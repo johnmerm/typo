@@ -148,10 +148,12 @@
     </ul>
   </div>
   <% if current_user.admin? %>
+  <h4><%= _("Merge Articles") %></h4>
   <div class='actions'>
-  	 <h4><%= _("Merge Articles") %></h4>
-  	 Article ID <%= text_field 'merge','with', {:autocomplete => 'off', :style => 'width: 100%'} %>
-     <input id='merge_btn' type="submit" value="<%= _('Merge') %>" name="article[merge]" class='btn info' />
+  	 
+  	 Article ID
+  	 <input autocomplete="off" id="merge_with" name="merge_with" size="30" style="width: 100%" type="text">
+  	 <input id='merge_btn' type="submit" value="<%= _('Merge') %>" name="article[merge]" class='btn info' />
    </div>
   <% end %>
   </div>

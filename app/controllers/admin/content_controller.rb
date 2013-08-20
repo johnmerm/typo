@@ -153,7 +153,7 @@ class Admin::ContentController < Admin::BaseController
       if params[:article][:draft]
         get_fresh_or_existing_draft_for_article
       elsif params[:article][:merge]
-        merge(id,params[:merge][:with])
+        merge(id,params[:merge_with])
         redirect_to :action => 'index'
         return
       else
