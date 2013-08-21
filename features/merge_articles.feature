@@ -21,7 +21,7 @@ Feature: Merge Articles
     Given I follow "first"
     Then I should see "Merge Articles"
 
-  Scenario: A non-admin cannot merge articles. 
+  Scenario: A non-admin cannot merge two articles
 	Given I log in as "publisher"
 	And I follow "All Articles"
     When I follow "second"
@@ -32,7 +32,7 @@ Feature: Merge Articles
     And I follow "New Article"
     Then I should not see "Merge Articles"
     
-  Scenario: When articles are merged, the merged article should contain the text of both previous articles.
+  Scenario: When articles are merged, the merged article should contain the text of both previous articles
     Given I log in as "admin"
     And I follow "All Articles"
     When I follow "first"
