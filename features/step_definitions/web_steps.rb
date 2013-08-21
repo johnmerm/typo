@@ -50,11 +50,13 @@ Given /^the blog is set up$/ do
                 :state => 'active'})
   
   User.create!({:login => 'contributor',
-                  :password => 'aaaaaaaa',
-                  :email => 'barry@snow.com',
-                  :profile_id => 3,
-                  :name => 'barry',
-                  :state => 'active'})       
+                :password => 'aaaaaaaa',
+                :email => 'barry@snow.com',
+                :profile_id => 3,
+                :name => 'barry',
+                :state => 'active'})
+
+
 end
 
 And /^I am logged into the admin panel$/ do

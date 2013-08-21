@@ -467,20 +467,32 @@ class Article < Content
     return from..to
   end
   
-def self.merge(id,target_id)
-  one = Article.find(id)
-  other = Article.find(target_id)
-  
-  one.body_and_extended=one.body_and_extended+other.body_and_extended
-  
-  other.comments.each do |comment|
-    comment.article = one
-    comment.save
+  def self.merge(first_id, second_id)
+    first = Article.find(first_id)
+    if Article.exists?(second_id)
+      second = Article.find(second_id)
+    else
+      false
+    end
+    merged_body = first.body + second.body
+    final = Article.create(:title => first.title, :author => first.author, :body => merged_body, :user_id => first.user_id, :published => true, :allow_comments => true)
+    comments1 = Feedback.find_all_by_article_id(first_id)
+    if not comments1.blank?
+      comments1.each do |feedback|
+        feedback.article_id = final.id
+        feedback.save
+      end
+    end
+    comments2 = Feedback.find_all_by_article_id(second_id)
+    if not comments2.blank?
+      comments2.each do |feedback|
+        feedback.article_id = final.id
+        feedback.save
+      end
+    end
+    Article.destroy(first_id)
+    Article.destroy(second_id)
+    final
   end
-   
-  one.save
-  other.destroy
-  
-end
 
 end
