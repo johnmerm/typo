@@ -27,6 +27,11 @@ Feature: Merge Articles
     When I follow "second"
     Then I should not see "Merge Articles"
     
+  Scenario: Merge shall not be visible in new article
+  	Given I log in as "admin"
+    And I follow "New Article"
+    Then I should not see "Merge Articles"
+    
   Scenario: When articles are merged, the merged article should contain the text of both previous articles.
     Given I log in as "admin"
     And I follow "All Articles"
