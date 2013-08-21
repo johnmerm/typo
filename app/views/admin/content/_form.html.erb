@@ -147,15 +147,6 @@
       <%= render 'admin/content/attachment', { :attachment_num => 1, :hidden => false } -%>
     </ul>
   </div>
-  <% if current_user.admin? and params[:action].=='edit'%>
-  <h4><%= _("Merge Articles") %></h4>
-  <div class='actions'>
-  	 
-  	 Article ID
-  	 <input autocomplete="off" id="merge_with" name="merge_with" size="30" style="width: 100%" type="text">
-  	 <input id='merge_btn' type="submit" value="<%= _('Merge') %>" name="article[merge]" class='btn info' />
-   </div>
-  <% end %>
   </div>
 
 </div>
