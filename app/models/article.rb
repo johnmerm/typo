@@ -416,6 +416,21 @@ class Article < Content
     user.admin? || user_id == user.id
   end
 
+def merge_with(other_article_id)
+    other_article = Article.where(id: other_article_id).first
+    self.body += "\n" + other_article.body
+
+    other_article.comments.each do |comment|
+      comment.article_id = self.id
+      comment.save!
+    end
+    save!
+    reload
+    
+    other_article.reload
+    other_article.destroy
+  end
+  
   protected
 
   def set_published_at
@@ -467,37 +482,6 @@ class Article < Content
     return from..to
   end
   
-  def self.merge(first_id, second_id)
-    puts "Fist Article ID:#{first_id} second:#{second_id}"
-    first = Article.find(first_id)
-    if Article.exists?(second_id)
-      second = Article.find(second_id)
-    else
-      false
-    end
-    
-    puts "Fist Article title:#{first.title} second:#{second.title}"
-    
-    merged_body = first.body + second.body
-    final = Article.create!(:title => first.title, :author => first.author, :body => merged_body, :user_id => first.user_id, :published => true, :allow_comments => true)
-    puts "Final Id #{final.id}"
-    comments1 = Feedback.find_all_by_article_id(first_id)
-    if not comments1.blank?
-      comments1.each do |feedback|
-        feedback.article_id = final.id
-        feedback.save
-      end
-    end
-    comments2 = Feedback.find_all_by_article_id(second_id)
-    if not comments2.blank?
-      comments2.each do |feedback|
-        feedback.article_id = final.id
-        feedback.save!
-      end
-    end
-    Article.destroy(first_id)
-    Article.destroy(second_id)
-    
-  end
+  
 
 end

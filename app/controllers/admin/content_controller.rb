@@ -139,9 +139,8 @@ class Admin::ContentController < Admin::BaseController
 
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
 
-  def merge(id,target_id)
-    Article.merge(id,target_id)
-  end
+  
+  
   def new_or_edit
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
@@ -153,7 +152,7 @@ class Admin::ContentController < Admin::BaseController
       if params[:article][:draft]
         get_fresh_or_existing_draft_for_article
       elsif params[:article][:merge]
-        merge(id,params[:merge_with])
+        @article.merge_with(params[:merge_with])
         redirect_to :action => 'index'
         return
       else
