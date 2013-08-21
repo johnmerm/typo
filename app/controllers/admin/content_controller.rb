@@ -23,6 +23,15 @@ class Admin::ContentController < Admin::BaseController
     end
   end
 
+  def merge
+    if (current_user.profile_id == 1)
+      params[:merge] = "Merge"
+      new_or_edit
+    elsif
+      redirect_to :action => 'index'
+    end
+  end
+
   def new
     new_or_edit
   end
@@ -139,8 +148,6 @@ class Admin::ContentController < Admin::BaseController
 
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
 
-
-
   def new_or_edit
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
@@ -149,7 +156,11 @@ class Admin::ContentController < Admin::BaseController
 
     @post_types = PostType.find(:all)
     if request.post?
-      if params[:article][:draft]
+      if params[:merge]
+        @article.merge_with(params[:merge_with])
+        redirect_to :action => 'index'
+        return
+      elsif params[:article][:draft]
         get_fresh_or_existing_draft_for_article
       else
         if not @article.parent_id.nil?
@@ -185,15 +196,6 @@ class Admin::ContentController < Admin::BaseController
     render 'new'
   end
 
-  def merge
-    id = params[:id]
-    id = params[:article][:id] if params[:article] && params[:article][:id]
-    @article = Article.find(id)
-    @article.merge_with(params[:merge_with])
-    redirect_to :action => 'index'
-    return
-
-  end
   def set_the_flash
     case params[:action]
     when 'new'
