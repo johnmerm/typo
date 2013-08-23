@@ -20,7 +20,12 @@ module NavigationHelpers
 
     when /^the Categories page$/
       '/admin/categories/new'
-     
+      
+    when /^the edit page for category "(.*)"$/
+      '/admin/categories/edit/'+Category.where(name:$1).first.id.to_s
+    
+    when /^the edit page for article "(.*)"$/
+      '/admin/content/edit/'+Article.where(title:$1).first.id.to_s
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
